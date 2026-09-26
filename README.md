@@ -51,4 +51,3 @@ The entire pipeline lives in one file, OnlineStore.java, composed of the followi
 
 ---
 
-## 🧭 Application Flow
