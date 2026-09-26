@@ -1,0 +1,108 @@
+import java.util.Scanner;
+
+class User {
+    String username;
+    String password;
+
+    User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+}
+
+class UserSession {
+    static User[] users = new User[10];
+    static int userCount = 0;
+    static String currentUser = null;   // session
+
+    // Register
+    static void register(String uname, String pass) {
+        if (userCount < users.length) {
+            users[userCount] = new User(uname, pass);
+            userCount++;
+            System.out.println("Registration successful!");
+        } else {
+            System.out.println("User limit reached.");
+        }
+    }
+
+    // Login
+    static boolean login(String uname, String pass) {
+        for (int i = 0; i < userCount; i++) {
+            if (users[i].username.equals(uname) && users[i].password.equals(pass)) {
+                currentUser = uname;
+                System.out.println("Login successful. Welcome " + uname);
+                return true;
+            }
+        }
+        System.out.println("Invalid username or password.");
+        return false;
+    }
+
+    // Guest mode
+    static void guestLogin() {
+        currentUser = "Guest";
+        System.out.println("Continuing as Guest.");
+    }
+
+    // Logout
+    static void logout() {
+        currentUser = null;
+        System.out.println("Logged out.");
+    }
+
+    // Check session
+    static void showSession() {
+        if (currentUser == null) {
+            System.out.println("No active session.");
+        } else {
+            System.out.println("Current user: " + currentUser);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n1. Register");
+            System.out.println("2. Login");
+            System.out.println("3. Guest Checkout");
+            System.out.println("4. Show Session");
+            System.out.println("5. Logout");
+            System.out.println("6. Exit");
+            System.out.print("Choice: ");
+            int ch = sc.nextInt();
+            sc.nextLine();
+
+            switch (ch) {
+                case 1:
+                    System.out.print("Username: ");
+                    String u = sc.nextLine();
+                    System.out.print("Password: ");
+                    String p = sc.nextLine();
+                    register(u, p);
+                    break;
+                case 2:
+                    System.out.print("Username: ");
+                    String lu = sc.nextLine();
+                    System.out.print("Password: ");
+                    String lp = sc.nextLine();
+                    login(lu, lp);
+                    break;
+                case 3:
+                    guestLogin();
+                    break;
+                case 4:
+                    showSession();
+                    break;
+                case 5:
+                    logout();
+                    break;
+                case 6:
+                    return;
+                default:
+                    System.out.println("Invalid!");
+            }
+        }
+    }
+}

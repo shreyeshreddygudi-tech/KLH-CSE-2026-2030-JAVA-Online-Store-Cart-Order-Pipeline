@@ -1,0 +1,90 @@
+import java.util.Date;
+import java.util.Random;
+
+class OrderItem {
+    int productId;
+    String name;
+    double price;
+    int quantity;
+
+    OrderItem(int productId, String name, double price, int quantity) {
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+}
+
+class Order {
+    String orderId;
+    OrderItem[] items;
+    int itemCount;
+    double total;
+    String status;
+    Date timestamp;
+    String customerName;
+    String address;
+
+    Order(String customerName, String address) {
+        this.orderId = generateOrderId();
+        this.items = new OrderItem[20];
+        this.itemCount = 0;
+        this.total = 0;
+        this.status = "Pending";
+        this.timestamp = new Date();
+        this.customerName = customerName;
+        this.address = address;
+    }
+
+    // Generate unique order ID
+    static String generateOrderId() {
+        Random rand = new Random();
+        int num = 10000 + rand.nextInt(90000);
+        return "ORD" + num;
+    }
+
+    void addItem(int pid, String name, double price, int qty) {
+        items[itemCount] = new OrderItem(pid, name, price, qty);
+        total += price * qty;
+        itemCount++;
+    }
+
+    void displayOrder() {
+        System.out.println("\n===== ORDER DETAILS =====");
+        System.out.println("Order ID   : " + orderId);
+        System.out.println("Customer   : " + customerName);
+        System.out.println("Address    : " + address);
+        System.out.println("Status     : " + status);
+        System.out.println("Date       : " + timestamp);
+        System.out.println("Items:");
+        for (int i = 0; i < itemCount; i++) {
+            System.out.println("  - " + items[i].name + " x" + items[i].quantity +
+                               " = Rs." + (items[i].price * items[i].quantity));
+        }
+        System.out.println("TOTAL      : Rs." + total);
+        System.out.println("=========================");
+    }
+}
+
+class OrderModule {
+    static Order[] orders = new Order[50];
+    static int orderCount = 0;
+
+    static void saveOrder(Order o) {
+        if (orderCount < orders.length) {
+            orders[orderCount] = o;
+            orderCount++;
+            System.out.println("Order saved successfully! ID: " + o.orderId);
+        }
+    }
+
+    public static void main(String[] args) {
+        Order o = new Order("Rahul Sharma", "123 MG Road, Bangalore");
+        o.addItem(101, "Laptop", 45000, 1);
+        o.addItem(102, "Mouse", 500, 2);
+        o.status = "Confirmed";
+
+        o.displayOrder();
+        saveOrder(o);
+    }
+}

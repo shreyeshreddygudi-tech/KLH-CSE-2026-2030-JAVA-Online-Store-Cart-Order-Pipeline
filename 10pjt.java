@@ -1,0 +1,99 @@
+import java.util.Scanner;
+
+class FrontendUI {
+    static Scanner sc = new Scanner(System.in);
+
+    static void productListingPage() {
+        System.out.println("\n========== PRODUCT LISTING ==========");
+        System.out.println("1. Laptop     - Rs.45000");
+        System.out.println("2. Mouse      - Rs.500");
+        System.out.println("3. Keyboard   - Rs.1200");
+        System.out.println("4. Headphones - Rs.2500");
+        System.out.println("5. USB Drive  - Rs.400");
+        System.out.println("=====================================");
+    }
+
+    static void productDetailPage(int choice) {
+        System.out.println("\n========== PRODUCT DETAIL ==========");
+        switch (choice) {
+            case 1:
+                System.out.println("Name: Laptop");
+                System.out.println("Price: Rs.45000");
+                System.out.println("Description: 15-inch gaming laptop");
+                System.out.println("Stock: 10");
+                break;
+            case 2:
+                System.out.println("Name: Mouse");
+                System.out.println("Price: Rs.500");
+                System.out.println("Description: Wireless mouse");
+                System.out.println("Stock: 50");
+                break;
+            default:
+                System.out.println("Product details not available.");
+        }
+        System.out.println("====================================");
+    }
+
+    static void cartPage() {
+        System.out.println("\n========== YOUR CART ==========");
+        System.out.println("1. Laptop x1  = Rs.45000");
+        System.out.println("2. Mouse x2   = Rs.1000");
+        System.out.println("-------------------------------");
+        System.out.println("TOTAL: Rs.46000");
+        System.out.println("===============================");
+    }
+
+    static void checkoutFormPage() {
+        System.out.println("\n========== CHECKOUT FORM ==========");
+        System.out.println("Name    : _______________");
+        System.out.println("Address : _______________");
+        System.out.println("Phone   : _______________");
+        System.out.println("City    : _______________");
+        System.out.println("Pincode : _______________");
+        System.out.println("===================================");
+    }
+
+    static void orderSuccessPage(String orderId) {
+        System.out.println("\n********** ORDER SUCCESS **********");
+        System.out.println("Thank you! Your order is confirmed.");
+        System.out.println("Order ID: " + orderId);
+        System.out.println("***********************************");
+    }
+
+    public static void main(String[] args) {
+        while (true) {
+            System.out.println("\n===== MAIN MENU =====");
+            System.out.println("1. Product Listing");
+            System.out.println("2. Product Detail");
+            System.out.println("3. Cart Page");
+            System.out.println("4. Checkout Form");
+            System.out.println("5. Order Success");
+            System.out.println("6. Exit");
+            System.out.print("Choice: ");
+            int ch = sc.nextInt();
+
+            switch (ch) {
+                case 1:
+                    productListingPage();
+                    break;
+                case 2:
+                    System.out.print("Enter product number: ");
+                    productDetailPage(sc.nextInt());
+                    break;
+                case 3:
+                    cartPage();
+                    break;
+                case 4:
+                    checkoutFormPage();
+                    break;
+                case 5:
+                    orderSuccessPage("ORD45821");
+                    break;
+                case 6:
+                    return;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+}

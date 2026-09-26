@@ -1,0 +1,25 @@
+class OrderConfirmation {
+    static void generateConfirmation(String orderId, String customerName, double total, String paymentStatus) {
+        System.out.println("\n########################################");
+        System.out.println("       ORDER CONFIRMATION");
+        System.out.println("########################################");
+        System.out.println("Dear " + customerName + ",");
+        System.out.println();
+        System.out.println("Your order has been placed successfully!");
+        System.out.println();
+        System.out.println("Order ID       : " + orderId);
+        System.out.println("Total Amount   : Rs." + total);
+        System.out.println("Payment Status : " + paymentStatus);
+        System.out.println();
+        System.out.println("Thank you for shopping with us!");
+        System.out.println("You will receive updates on your registered mobile.");
+        System.out.println("934*****89");
+
+        // Simple email simulation
+        System.out.println("\n[Email Simulation] Confirmation mail sent to customer@email.com");
+    }
+
+    public static void main(String[] args) {
+        generateConfirmation("ORD45821", "Rahul Sharma", 46000, "SUCCESS");
+    }
+}

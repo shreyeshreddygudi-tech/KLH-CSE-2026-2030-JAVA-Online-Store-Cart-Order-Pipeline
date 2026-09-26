@@ -1,0 +1,57 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
+
+class Utility {
+    // Format price with currency
+    static String formatPrice(double price) {
+        return "Rs." + String.format("%.2f", price);
+    }
+
+    // Generate unique ID
+    static String generateUniqueId(String prefix) {
+        Random rand = new Random();
+        int num = 10000 + rand.nextInt(90000);
+        return prefix + num;
+    }
+
+    // Date/time helper
+    static String getCurrentDateTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        return sdf.format(new Date());
+    }
+
+    // Calculate simple tax (5%)
+    static double calculateTax(double amount) {
+        return amount * 0.05;
+    }
+
+    // Calculate fixed shipping
+    static double calculateShipping(double amount) {
+        if (amount >= 1000) {
+            return 0;          // free shipping
+        } else {
+            return 50;         // fixed shipping
+        }
+    }
+
+    // Final total with tax + shipping
+    static double calculateFinalTotal(double subtotal) {
+        double tax = calculateTax(subtotal);
+        double shipping = calculateShipping(subtotal);
+        return subtotal + tax + shipping;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Formatted Price : " + formatPrice(45999.5));
+        System.out.println("Order ID        : " + generateUniqueId("ORD"));
+        System.out.println("Product ID      : " + generateUniqueId("PRD"));
+        System.out.println("Current Time    : " + getCurrentDateTime());
+
+        double subtotal = 46000;
+        System.out.println("Subtotal        : " + formatPrice(subtotal));
+        System.out.println("Tax (5%)        : " + formatPrice(calculateTax(subtotal)));
+        System.out.println("Shipping        : " + formatPrice(calculateShipping(subtotal)));
+        System.out.println("Final Total     : " + formatPrice(calculateFinalTotal(subtotal)));
+    }
+}

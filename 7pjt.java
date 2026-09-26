@@ -1,0 +1,55 @@
+import java.util.Random;
+import java.util.Scanner;
+
+class Payment {
+    static String[] methods = {"Card", "COD", "UPI"};
+
+    // Mock payment
+    static boolean processPayment(String method, double amount) {
+        System.out.println("\nProcessing payment of Rs." + amount + " via " + method + "...");
+
+        // Simulate delay
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {}
+
+        Random rand = new Random();
+        int chance = rand.nextInt(10);  // 0-9
+
+        // 80% success chance
+        if (chance < 8) {
+            System.out.println("Payment SUCCESSFUL!");
+            return true;
+        } else {
+            System.out.println("Payment FAILED! Please try again.");
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Select Payment Method:");
+        for (int i = 0; i < methods.length; i++) {
+            System.out.println((i + 1) + ". " + methods[i]);
+        }
+        System.out.print("Choice: ");
+        int ch = sc.nextInt();
+
+        String method;
+        if (ch >= 1 && ch <= 3) {
+            method = methods[ch - 1];
+        } else {
+            System.out.println("Invalid method. Defaulting to COD.");
+            method = "COD";
+        }
+
+        boolean success = processPayment(method, 46000);
+
+        if (success) {
+            System.out.println("Payment Status: SUCCESS");
+        } else {
+            System.out.println("Payment Status: FAILED");
+        }
+    }
+}
