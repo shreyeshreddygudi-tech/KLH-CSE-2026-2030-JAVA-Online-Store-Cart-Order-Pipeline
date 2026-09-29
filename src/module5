@@ -1,0 +1,75 @@
+import java.util.Scanner;
+
+class Checkout {
+    static String name;
+    static String address;
+    static String phone;
+    static String city;
+    static String pincode;
+
+    // Collect shipping details
+    static void collectDetails() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n===== CHECKOUT - Shipping Details =====");
+
+        System.out.print("Full Name: ");
+        name = sc.nextLine();
+
+        System.out.print("Address: ");
+        address = sc.nextLine();
+
+        System.out.print("Phone: ");
+        phone = sc.nextLine();
+
+        System.out.print("City: ");
+        city = sc.nextLine();
+
+        System.out.print("Pincode: ");
+        pincode = sc.nextLine();
+    }
+
+    // Validate required fields
+    static boolean validate() {
+        if (name == null || name.trim().isEmpty()) {
+            System.out.println("Name is required!");
+            return false;
+        }
+        if (address == null || address.trim().isEmpty()) {
+            System.out.println("Address is required!");
+            return false;
+        }
+        if (phone == null || phone.length() < 10) {
+            System.out.println("Valid phone number required!");
+            return false;
+        }
+        if (city == null || city.trim().isEmpty()) {
+            System.out.println("City is required!");
+            return false;
+        }
+        if (pincode == null || pincode.length() != 6) {
+            System.out.println("Valid 6-digit pincode required!");
+            return false;
+        }
+        return true;
+    }
+
+    // Review order summary
+    static void reviewOrder(double total) {
+        System.out.println("\n===== ORDER SUMMARY =====");
+        System.out.println("Customer : " + name);
+        System.out.println("Address  : " + address + ", " + city + " - " + pincode);
+        System.out.println("Phone    : " + phone);
+        System.out.println("Total    : Rs." + total);
+        System.out.println("=========================");
+    }
+
+    public static void main(String[] args) {
+        collectDetails();
+        if (validate()) {
+            reviewOrder(45500);  // sample total
+            System.out.println("Details validated. Ready for payment.");
+        } else {
+            System.out.println("Please correct the errors.");
+        }
+    }
+}
