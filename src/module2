@@ -1,0 +1,163 @@
+import java.util.Scanner;
+
+class CartItem {
+    int productId;
+    String name;
+    double price;
+    int quantity;
+
+    CartItem(int productId, String name, double price, int quantity) {
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    double getSubtotal() {
+        return price * quantity;
+    }
+}
+
+class ShoppingCart {
+    static CartItem[] cart = new CartItem[20];  // max 20 items
+    static int itemCount = 0;
+
+    // Add item to cart
+    static void addItem(int productId, String name, double price, int qty) {
+        // Check if already exists
+        for (int i = 0; i < itemCount; i++) {
+            if (cart[i].productId == productId) {
+                cart[i].quantity += qty;
+                System.out.println("Quantity updated for " + name);
+                return;
+            }
+        }
+        // New item
+        if (itemCount < cart.length) {
+            cart[itemCount] = new CartItem(productId, name, price, qty);
+            itemCount++;
+            System.out.println(name + " added to cart.");
+        } else {
+            System.out.println("Cart is full!");
+        }
+    }
+
+    // Remove item
+    static void removeItem(int productId) {
+        for (int i = 0; i < itemCount; i++) {
+            if (cart[i].productId == productId) {
+                // Shift remaining items
+                for (int j = i; j < itemCount - 1; j++) {
+                    cart[j] = cart[j + 1];
+                }
+                itemCount--;
+                System.out.println("Item removed from cart.");
+                return;
+            }
+        }
+        System.out.println("Item not found in cart.");
+    }
+
+    // Update quantity
+    static void updateQuantity(int productId, int newQty) {
+        for (int i = 0; i < itemCount; i++) {
+            if (cart[i].productId == productId) {
+                if (newQty <= 0) {
+                    removeItem(productId);
+                } else {
+                    cart[i].quantity = newQty;
+                    System.out.println("Quantity updated.");
+                }
+                return;
+            }
+        }
+        System.out.println("Item not found.");
+    }
+
+    // Calculate total
+    static double calculateTotal() {
+        double total = 0;
+        for (int i = 0; i < itemCount; i++) {
+            total += cart[i].getSubtotal();
+        }
+        return total;
+    }
+
+    // Clear cart
+    static void clearCart() {
+        itemCount = 0;
+        System.out.println("Cart cleared.");
+    }
+
+    // Display cart
+    static void displayCart() {
+        if (itemCount == 0) {
+            System.out.println("Cart is empty.");
+            return;
+        }
+        System.out.println("\n===== YOUR CART =====");
+        for (int i = 0; i < itemCount; i++) {
+            System.out.println((i + 1) + ". " + cart[i].name +
+                               " | Qty: " + cart[i].quantity +
+                               " | Price: Rs." + cart[i].price +
+                               " | Subtotal: Rs." + cart[i].getSubtotal());
+        }
+        System.out.println("TOTAL: Rs." + calculateTotal());
+        System.out.println("=====================");
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Sample adds
+        addItem(101, "Laptop", 45000, 1);
+        addItem(102, "Mouse", 500, 2);
+
+        while (true) {
+            System.out.println("\n1. View Cart");
+            System.out.println("2. Add Item");
+            System.out.println("3. Remove Item");
+            System.out.println("4. Update Quantity");
+            System.out.println("5. Clear Cart");
+            System.out.println("6. Exit");
+            System.out.print("Choice: ");
+            int ch = sc.nextInt();
+
+            switch (ch) {
+                case 1:
+                    displayCart();
+                    break;
+                case 2:
+                    System.out.print("Product ID: ");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Price: ");
+                    double price = sc.nextDouble();
+                    System.out.print("Qty: ");
+                    int qty = sc.nextInt();
+                    addItem(id, name, price, qty);
+                    break;
+                case 3:
+                    System.out.print("Enter Product ID to remove: ");
+                    removeItem(sc.nextInt());
+                    break;
+                case 4:
+                    System.out.print("Product ID: ");
+                    int pid = sc.nextInt();
+                    System.out.print("New Qty: ");
+                    int nq = sc.nextInt();
+                    updateQuantity(pid, nq);
+                    break;
+                case 5:
+                    clearCart();
+                    break;
+                case 6:
+                    return;
+                default:
+                    System.out.println("Invalid!");
+            }
+        }
+    }
+}
