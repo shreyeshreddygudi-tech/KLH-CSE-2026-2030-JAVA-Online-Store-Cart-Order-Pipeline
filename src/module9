@@ -1,0 +1,72 @@
+class DataStorage {
+    // In-memory storage using simple arrays (no ArrayList)
+    static String[] productData = new String[50];
+    static int productCount = 0;
+
+    static String[] orderData = new String[50];
+    static int orderCount = 0;
+
+    // Save product
+    static void saveProduct(String data) {
+        if (productCount < productData.length) {
+            productData[productCount] = data;
+            productCount++;
+            System.out.println("Product saved in memory.");
+        } else {
+            System.out.println("Product storage is full!");
+        }
+    }
+
+    // Load products
+    static void loadProducts() {
+        System.out.println("\n===== Loaded Products =====");
+        if (productCount == 0) {
+            System.out.println("No products found.");
+        } else {
+            for (int i = 0; i < productCount; i++) {
+                System.out.println(productData[i]);
+            }
+        }
+    }
+
+    // Save order
+    static void saveOrder(String data) {
+        if (orderCount < orderData.length) {
+            orderData[orderCount] = data;
+            orderCount++;
+            System.out.println("Order saved in memory.");
+        } else {
+            System.out.println("Order storage is full!");
+        }
+    }
+
+    // Load orders
+    static void loadOrders() {
+        System.out.println("\n===== Loaded Orders =====");
+        if (orderCount == 0) {
+            System.out.println("No orders found.");
+        } else {
+            for (int i = 0; i < orderCount; i++) {
+                System.out.println(orderData[i]);
+            }
+        }
+    }
+
+    // Simple "file" simulation (just print)
+    static void saveToFile(String filename, String content) {
+        System.out.println("[File Simulation] Writing to " + filename + ":");
+        System.out.println(content);
+        System.out.println("Data written successfully (simulated).");
+    }
+
+    public static void main(String[] args) {
+        saveProduct("101,Laptop,45000,10");
+        saveProduct("102,Mouse,500,50");
+        loadProducts();
+
+        saveOrder("ORD123,Rahul,46000,Confirmed");
+        loadOrders();
+
+        saveToFile("orders.txt", "ORD123,Rahul,46000,Confirmed");
+    }
+}
