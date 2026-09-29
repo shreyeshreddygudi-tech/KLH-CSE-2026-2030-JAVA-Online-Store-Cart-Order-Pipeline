@@ -1,0 +1,113 @@
+import java.util.Scanner;
+
+class Product {
+    int id;
+    String name;
+    double price;
+    String description;
+    String image;      // just a string for simplicity
+    int stock;
+
+    // Constructor
+    Product(int id, String name, double price, String description, String image, int stock) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.image = image;
+        this.stock = stock;
+    }
+
+    void display() {
+        System.out.println("ID: " + id + " | " + name + " | Rs." + price +" | Stock: " + stock);
+        System.out.println("Desc: " + description);
+        System.out.println("Image: " + image);
+        System.out.println("--------------------------------");
+    }
+}
+
+class ProductCatalog {
+    static Product[] products = new Product[5];  // fixed array for basic version
+    static int count = 0;
+
+    // Add sample products
+    static void loadProducts() {
+        products[0] = new Product(101, "Laptop", 45000, "15-inch gaming laptop", "laptop.jpg", 10);
+        products[1] = new Product(102, "Mouse", 500, "Wireless mouse", "mouse.jpg", 50);
+        products[2] = new Product(103, "Keyboard", 1200, "Mechanical keyboard", "keyboard.jpg", 30);
+        products[3] = new Product(104, "Headphones", 2500, "Noise cancelling", "headphones.jpg", 20);
+        products[4] = new Product(105, "USB Drive", 400, "64GB pen drive", "usb.jpg", 100);
+        count = 5;
+    }
+
+    // List all products
+    static void listAllProducts() {
+        System.out.println("\n===== PRODUCT CATALOG =====");
+        for (int i = 0; i < count; i++) {
+            products[i].display();
+        }
+    }
+
+    // Get single product by ID
+    static Product getProductById(int id) {
+        for (int i = 0; i < count; i++) {
+            if (products[i].id == id) {
+                return products[i];
+            }
+        }
+        return null;
+    }
+
+    // Simple search by name
+    static void searchProduct(String keyword) {
+        System.out.println("\nSearch results for: " + keyword);
+        boolean found = false;
+        for (int i = 0; i < count; i++) {
+            if (products[i].name.toLowerCase().contains(keyword.toLowerCase())) {
+                products[i].display();
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No product found.");
+        }
+    }
+
+    public static void main(String[] args) {
+        loadProducts();
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n1. List All Products");
+            System.out.println("2. Get Product by ID");
+            System.out.println("3. Search Product");
+            System.out.println("4. Exit");
+            System.out.print("Choice: ");
+            int ch = sc.nextInt();
+            sc.nextLine();
+
+            switch (ch) {
+                case 1:
+                    listAllProducts();
+                    break;
+                case 2:
+                    System.out.print("Enter Product ID: ");
+                    int id = sc.nextInt();
+                    Product p = getProductById(id);
+                    if (p != null) p.display();
+                    else System.out.println("Product not found!");
+                    break;
+                case 3:
+                    System.out.print("Enter keyword: ");
+                    String key = sc.nextLine();
+                    searchProduct(key);
+                    break;
+                case 4:
+                    System.out.println("Exiting Catalog...");
+                    return;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        }
+    }
+}
