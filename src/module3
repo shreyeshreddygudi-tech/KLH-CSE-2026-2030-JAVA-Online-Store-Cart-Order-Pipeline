@@ -1,0 +1,55 @@
+class Inventory {
+    static int[] productIds = {101, 102, 103, 104, 105};
+    static int[] stock = {10, 50, 30, 20, 100};
+
+    // Check available stock
+    static boolean checkStock(int productId, int qty) {
+        for (int i = 0; i < productIds.length; i++) {
+            if (productIds[i] == productId) {
+                if (stock[i] >= qty) {
+                    return true;
+                } else {
+                    System.out.println("Only " + stock[i] + " left in stock!");
+                    return false;
+                }
+            }
+        }
+        System.out.println("Product not found in inventory.");
+        return false;
+    }
+
+    // Decrease stock when order placed
+    static void decreaseStock(int productId, int qty) {
+        for (int i = 0; i < productIds.length; i++) {
+            if (productIds[i] == productId) {
+                if (stock[i] >= qty) {
+                    stock[i] -= qty;
+                    System.out.println("Stock updated. Remaining: " + stock[i]);
+                } else {
+                    System.out.println("Cannot decrease. Insufficient stock.");
+                }
+                return;
+            }
+        }
+    }
+
+    // Show current stock
+    static void showStock() {
+        System.out.println("\n===== CURRENT STOCK =====");
+        for (int i = 0; i < productIds.length; i++) {
+            System.out.println("Product ID: " + productIds[i] + " | Stock: " + stock[i]);
+        }
+    }
+
+    public static void main(String[] args) {
+        showStock();
+
+        // Example usage
+        if (checkStock(101, 2)) {
+            System.out.println("Stock available. Proceeding...");
+            decreaseStock(101, 2);
+        }
+
+        showStock();
+    }
+}
